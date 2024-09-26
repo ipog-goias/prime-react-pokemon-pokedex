@@ -1,4 +1,5 @@
 //Importação dos pacotes
+import { PokemonDetail } from '../model/pokemon-detail';
 import { PokemonListResponse, Pokemon } from './../model/pokemon';
 
 //Declaração de atributos
@@ -19,6 +20,10 @@ export const fetchPokemonList = async (offset = 0, limit=20): Promise<Pokemon[]>
     
 };
 
-export const fetchPokemonDetail = () => {
-
+export const fetchPokemonDetail = async (url: string): Promise<PokemonDetail> => {
+    const response = await fetch(url);
+     //Aqui estamo definindo o tipo de resposta baseado em um contrato
+     const data: PokemonDetail = await response.json();
+     //Agora o typescript conhece que data tem uma propriedade results.
+     return data;
 }
