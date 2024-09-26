@@ -1,8 +1,5 @@
-import { Result, PokemonListResponse } from './../model/pokemon';
 //Importação dos pacotes
-
-import { Pokemon } from "../model/pokemon";
-
+import { PokemonListResponse, Pokemon } from './../model/pokemon';
 
 //Declaração de atributos
 const API_URL = 'https://pokeapi.co/api/v2/'
@@ -16,6 +13,7 @@ export const fetchPokemonList = async (offset = 0, limit=20): Promise<Pokemon[]>
     //Aqui estamo definindo o tipo de resposta baseado em um contrato
     const data: PokemonListResponse = await response.json();
     //Agora o typescript conhece que data tem uma propriedade results.
+    console.log(data.results);
     return data.results;
 
     

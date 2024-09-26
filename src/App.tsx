@@ -5,12 +5,17 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Splash from './pages/Splash';
 import Login from './pages/Login';
 import Dashsboard from './pages/Dashboard';
+import PokemonList from './pages/PokemonList';
 
 // function App() {
 //   return (
    
 //   );
 // }
+
+const handleSelect = (url: string) =>{
+  console.log("Url selecionada: ", url);
+}
 
 const App: React.FC = () => {
   return (
@@ -20,6 +25,7 @@ const App: React.FC = () => {
         <Route path="/dashboard" element={<Dashsboard />} />      
         <Route path="/" element={<Splash />} />
         <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/pokemon-list" element={<PokemonList onSelect={handleSelect} />} />
       </Routes>
     </Router>
 

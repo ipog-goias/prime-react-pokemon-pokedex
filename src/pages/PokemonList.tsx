@@ -10,12 +10,13 @@ interface PokemonListProps {
 }
 
 
-const Pokemon: React.FC<PokemonListProps> = ({onSelect}) => {
+const PokemonList: React.FC<PokemonListProps> = ({onSelect}) => {
 
     //criação das props
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
 
     //criação de métodos se houver
+    //função para buscar a definir a lista de Pokémons
     useEffect(()=>{
         const getPokemons = async () =>{
             const result = await fetchPokemonList();
@@ -27,11 +28,19 @@ const Pokemon: React.FC<PokemonListProps> = ({onSelect}) => {
     //retorno do componente
     return(
         <div>
-           <h1>Pokemon list</h1>
+           <h1>Pokemon List</h1>
+            <ul>
+                {
+                pokemons.map((pokemon) =>(
+                    <li key={pokemon.name} onClick={()=>onSelect(pokemon.url)}>
+                        {pokemon.name}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
 
 
 //export
-export default Pokemon
+export default PokemonList
