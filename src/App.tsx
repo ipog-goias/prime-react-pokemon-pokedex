@@ -6,6 +6,7 @@ import Splash from './pages/Splash';
 import Login from './pages/Login';
 import Dashsboard from './pages/Dashboard';
 import PokemonList from './pages/PokemonList';
+import PokemonDetails from './pages/PokemonDetail';
 
 // function App() {
 //   return (
@@ -13,19 +14,16 @@ import PokemonList from './pages/PokemonList';
 //   );
 // }
 
-const handleSelect = (url: string) =>{
-  console.log("Url selecionada: ", url);
-}
-
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />      
-        <Route path="/dashboard" element={<Dashsboard />} />      
+        <Route path="/dashboard" element={<Dashsboard />} />
+        <Route path="/pokemon-list" element={<PokemonList />} />
+        <Route path="/pokemon/:name" element={<PokemonDetails />} />
         <Route path="/" element={<Splash />} />
         <Route path="*" element={<Navigate to="/" />} />
-        <Route path="/pokemon-list" element={<PokemonList onSelect={handleSelect} />} />
       </Routes>
     </Router>
 

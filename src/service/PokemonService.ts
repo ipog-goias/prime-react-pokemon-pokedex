@@ -14,14 +14,21 @@ export const fetchPokemonList = async (offset = 0, limit=20): Promise<Pokemon[]>
     //Aqui estamo definindo o tipo de resposta baseado em um contrato
     const data: PokemonListResponse = await response.json();
     //Agora o typescript conhece que data tem uma propriedade results.
-    console.log(data.results);
     return data.results;
 
     
 };
 
-export const fetchPokemonDetail = async (url: string): Promise<PokemonDetail> => {
-    const response = await fetch(url);
+export const fetchPokemonDetail = async (id: string): Promise<PokemonDetail> => {
+    const response = await fetch(`${API_URL}/pokemon/${id}`)
+     //Aqui estamo definindo o tipo de resposta baseado em um contrato
+     const data: PokemonDetail = await response.json();
+     //Agora o typescript conhece que data tem uma propriedade results.
+     return data;
+}
+
+export const fetchPokemonDetailByName = async (name: string): Promise<PokemonDetail> => {
+    const response = await fetch(`${API_URL}/pokemon/${name}`)
      //Aqui estamo definindo o tipo de resposta baseado em um contrato
      const data: PokemonDetail = await response.json();
      //Agora o typescript conhece que data tem uma propriedade results.
