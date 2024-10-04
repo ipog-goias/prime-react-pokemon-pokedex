@@ -22,5 +22,6 @@ body {
 .pokemon-image {
   width: 96px;
   height: 96px;
+  margin-bottom: 20px;
   align-content: center;
 }

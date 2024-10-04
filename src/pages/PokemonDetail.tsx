@@ -1,6 +1,6 @@
 //import as componentes de classe
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PokemonDetail } from "../model/pokemon-detail";
 import { fetchPokemonDetail, fetchPokemonDetailByName } from "../service/PokemonService";
 
@@ -8,6 +8,8 @@ import { fetchPokemonDetail, fetchPokemonDetailByName } from "../service/Pokemon
 import { Card } from 'primereact/card';
 import { Tag } from 'primereact/tag';
 import { Panel } from 'primereact/panel';
+import { Divider } from "primereact/divider";
+import { Button } from "primereact/button";
 
 
 //componente
@@ -15,6 +17,7 @@ const PokemonDetails: React.FC = () =>{
 //declaração dos atributos
 const {name} = useParams<{name: string}>();
 const [pokemon, setPokemon] = useState<PokemonDetail | null>(null)
+const navigate = useNavigate();
 
 //declaração de métodos se houver
 useEffect(()=>{
@@ -34,34 +37,54 @@ useEffect(()=>{
     // será executada que o valor da variavel name mudar;
 },[name]);
 
-
 if(!pokemon){
     return <div>Carregando...</div>
 }
+
+const voltar = ()=>{
+    navigate(-1);
+}
+
+const headerTemplate = (
+    <div style={{textAlign: 'center'}}>
+        <img src={pokemon.sprites.front_default}
+        alt={pokemon.name}
+        className="pokemon-image"
+        />
+    </div>
+);
 
 //retornar o componente
 return (
 
     /*div principal*/
     <div className="p-grid p-justify-center">
-        <div className="p-col-12 p-md-6">
+        <div className="p-col-12 p-md-8">
             <Card
-                title={pokemon.name}
+                title={pokemon.name.charAt(0).toLocaleUpperCase() + pokemon.name.slice(1)}
                 subTitle={`Base Experience: ${pokemon.base_experience}`}
-                style={{ width: '50%' }}
-                header={<img src={pokemon.sprites.front_default} alt={pokemon.name} className="pokemon-image" />}>
-                <p className="m-0">
-                   <h3>Details</h3>
-                   <p><b>Heigth:</b> {pokemon.height}</p>
-                   <p><b>Weight:</b> {pokemon.weight}</p>
-                </p>
-                <Panel header="Types" toggleable>
+                style={{ width: '100%', padding: '2rem' }}
+                header={headerTemplate}
+                className="shadow-4"
+                >
+                <div className="p-grid">
+                   <div className="p-col-6">
+                        <p><b>Heigth:</b> {pokemon.height / 10} m</p>
+                   </div>
+                   <div className="p-col-6">
+                        <p><b>Weight:</b> {pokemon.weight / 10} kg</p>
+                   </div>
+                </div>
+
+            <Divider />
+
+                <Panel header="Types" toggleable className="p-mb-3">
                     {pokemon.types.map((typeInfo) =>(
                         <Tag key={typeInfo.type.name} severity="info" value={typeInfo.type.name}/>    
                         ))}
                 </Panel>
 
-                <Panel header="Abilities" toggleable>
+                <Panel header="Abilities" toggleable className="p-mb-3" collapseIcon="pi pi-minus" expandIcon="pi pi-plus" >
                      {pokemon.abilities.map((abilityInfo) =>(
                         <Tag key={abilityInfo.ability.name} severity="success" value={abilityInfo.ability.name}/>    
                         ))}
@@ -72,43 +95,14 @@ return (
                         <Tag key={statsInfo.stat.name} severity="warning" value={statsInfo.base_stat}/>    
                         ))}
                 </Panel>
+
+                <div className="p-mb-4" style={{textAlign: 'center'}}>
+                    <Button label="Voltar" icon="pi pi-arrow-left" className="p-button-secondary" onClick={voltar} />
+                </div>
+
             </Card>
         </div>
     </div>
-
-/*     <div>
-        <h1>{pokemon.name} Details</h1>
-        <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-        <p><b>Heigth:</b> {pokemon.height}</p>
-        <p><b>Weight:</b> {pokemon.weight}</p>
-        <p><b>Base Experience:</b> {pokemon.base_experience}</p>
-
-        <h3>Types</h3>
-        <ul>
-            {pokemon.types.map((typeInfo) =>(
-                <li key={typeInfo.type.name}>{typeInfo.type.name}</li>    
-            ))}
-        </ul>
-
-        <h3>Abilities</h3>
-        <ul>
-            {pokemon.abilities.map((abilityInfo) =>(
-                <li key={abilityInfo.ability.name}>
-                    {abilityInfo.ability.name} - 
-                    {abilityInfo.is_hidden && '(Hidden)'}
-                </li>    
-            ))}
-        </ul>
-
-        <h3>Stats</h3>
-        <ul>
-            {pokemon.stats.map((statsInfo) =>(
-                <li key={statsInfo.stat.name}>
-                    <b>{statsInfo.stat.name}</b> - {statsInfo.base_stat}
-                </li>    
-            ))}
-        </ul>
-    </div> */
 )
 
 }
